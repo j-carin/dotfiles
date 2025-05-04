@@ -1,8 +1,10 @@
 dir=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
-# apt
-sudo apt update && sudo apt -y upgrade
-sudo apt install -y git curl wget vim htop tree
+read -p $'\nUpdate apt and install core packages? [y/N] ' -r
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    sudo apt update && sudo apt -y upgrade
+    sudo apt install -y git curl wget vim htop tree
+fi
 
 # vimrc
 git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
@@ -23,4 +25,9 @@ if ! command -v uv &> /dev/null; then
     curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
-source ~/.bashrc
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then # sourced
+    source ~/.bashrc
+else # not sourced
+    echo "To apply shell changes, run:"
+    echo "    source ~/.bashrc"
+fi
