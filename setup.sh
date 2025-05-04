@@ -8,7 +8,7 @@ if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     sudo apt install -y git curl wget vim htop tree
 
     # fancier packages
-    sudo apt install -y fzf ripgrep bottom ncdu
+    sudo apt install -y fzf ripgrep ncdu
 fi
 
 # Install Vim config
