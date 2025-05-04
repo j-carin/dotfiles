@@ -14,7 +14,7 @@
 	s = status -sb
 	co = checkout
 	br = branch
-	c = commit
+	c = commit -m
 	st = status
 	lg = log --graph --oneline --all --decorate
 	type = cat-file -t
