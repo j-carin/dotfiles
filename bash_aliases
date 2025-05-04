@@ -7,4 +7,4 @@ alias ..='cd ..'
 alias ...='cd ../..'
 
 alias z='zoxide'
-
+alias bat='batcat'
