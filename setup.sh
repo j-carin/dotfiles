@@ -39,7 +39,10 @@ if ! command -v zoxide &> /dev/null; then
 fi
 
 # Install Rust CLI tools
-. "$dir/cargo-setup.sh"
+read -p $'\nInstall cargo packages? This is slow. [y/N] ' -r
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    . "$dir/cargo-setup.sh"
+fi
 
 # Install magic-trace
 if ! command -v magic-trace &> /dev/null; then
