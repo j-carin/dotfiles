@@ -1,4 +1,4 @@
-if which lsd &> /dev/null; then
+if command -v lsd &> /dev/null; then
     alias ls='lsd'
     alias ll='lsd -la'
     alias la='lsd -a'
@@ -9,9 +9,9 @@ else
     alias l='ls -F'
 fi
 
-
 alias rm='rm -I'
-
 alias ..='cd ..'
-alias ...='cd .. && cd ..'
+alias ...='cd ../..'
+
+alias z='zoxide'
 

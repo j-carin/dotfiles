@@ -1,33 +1,63 @@
+#!/usr/bin/env bash
+
 dir=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 read -p $'\nUpdate apt and install core packages? [y/N] ' -r
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     sudo apt update && sudo apt -y upgrade
     sudo apt install -y git curl wget vim htop tree
+
+    # fancier packages
+    sudo apt install -y fzf ripgrep bottom ncdu
 fi
 
-# vimrc
+# Install Vim config
 git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
 sh ~/.vim_runtime/install_awesome_vimrc.sh
 
-# install dotfiles
+# Link dotfiles
 ln -sf "$dir/gitconfig" ~/.gitconfig
 ln -sf "$dir/gitignore" ~/.gitignore
 ln -sf "$dir/bash_aliases" ~/.bash_aliases
 
-# setup rust
+# Install Rust
 if ! command -v rustc &> /dev/null; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source "$HOME/.cargo/env"
 fi
 
-# install uv
+# Install uv
 if ! command -v uv &> /dev/null; then
     curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
-if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then # sourced
+# Install zoxide
+if ! command -v zoxide &> /dev/null; then
+    curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+    echo "eval \"\$(zoxide init bash)\"" >> ~/.bashrc
+    echo "export _ZO_DOCTOR=0" >> ~/.bashrc
+fi
+
+# Install Rust CLI tools
+. "$dir/cargo-setup.sh"
+
+# Install magic-trace
+if ! command -v magic-trace &> /dev/null; then
+    arch=$(uname -m)
+    if [[ "$arch" != "x86_64" ]]; then
+        echo "[-] magic-trace only supports x86_64 architectures. Skipping install."
+    else
+        mkdir -p ~/.local/bin
+        curl -Lo ~/.local/bin/magic-trace https://github.com/janestreet/magic-trace/releases/download/v1.2.4/magic-trace
+        chmod +x ~/.local/bin/magic-trace
+    fi
+fi
+
+# Final shell reload
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
     source ~/.bashrc
-else # not sourced
+else
     echo "To apply shell changes, run:"
     echo "    source ~/.bashrc"
 fi
+
