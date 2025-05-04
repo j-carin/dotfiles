@@ -1,0 +1,36 @@
+[user]
+	email = me@jcarin.com
+	name = Jeremy Carin
+
+[core]
+	excludesfile = ~/.gitignore
+	editor = vim
+	pager = less -FRX
+
+[init]
+	defaultBranch = main
+
+[alias]
+	s = status -sb
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	lg = log --graph --oneline --all --decorate
+	type = cat-file -t
+	dump = cat-file -p
+
+[push]
+	default = simple
+
+[fetch]
+	prune = true
+
+[merge]
+	ff = only
+
+[rebase]
+	autoStash = true
+
+[pull]
+	rebase = true

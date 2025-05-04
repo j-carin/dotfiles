@@ -1,0 +1,75 @@
+# Editor/IDE temp files
+**/*.swp
+**/*.swo
+**/*~
+**/.DS_Store
+**/Thumbs.db
+**/.idea/
+**/.vscode/
+**/*.code-workspace
+
+# Build system outputs
+**/build/
+**/dist/
+**/bin/
+**/obj/
+**/out/
+**/*.o
+**/*.a
+**/*.so
+**/*.dll
+**/*.dylib
+**/*.exe
+**/*.pyc
+**/*.pyo
+**/__pycache__/
+
+# Compilation metadata
+**/compile_commands.json
+**/Makefile.in
+**/CMakeFiles/
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/configure
+**/config.status
+**/config.log
+
+# Language server / tooling
+**/.clangd
+**/.svlangserver
+**/.cache
+**/.pytest_cache/
+**/.mypy_cache/
+**/.coverage
+**/.ninja_log
+**/.ninja_deps
+
+# Logs and dumps
+**/*.log
+**/core
+**/vgcore.*
+
+# Version control internals (precaution)
+.svn/
+*.patch
+*.orig
+*.rej
+
+# OS-generated
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Archives and packages
+**/*.tar
+**/*.gz
+**/*.zip
+**/*.7z
+**/*.rar
+
+# User secrets or credentials (be cautious and customize)
+.env
+.env.*
+*.key
+*.pem
+*.crt
