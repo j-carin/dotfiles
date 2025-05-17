@@ -28,7 +28,6 @@
 
 [merge]
 	ff = only
-	conflictstyle = zdiff3
 
 [rebase]
 	autoStash = true
