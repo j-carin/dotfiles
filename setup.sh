@@ -34,7 +34,7 @@ fi
 # Install zoxide
 if ! command -v zoxide &> /dev/null; then
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-    echo "eval \"\$(zoxide init bash)\"" >> ~/.bashrc
+    echo "eval \"\$(zoxide init bash --cmd cd)\"" >> ~/.bashrc
     echo "export _ZO_DOCTOR=0" >> ~/.bashrc
 fi
 
