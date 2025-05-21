@@ -1,78 +1,65 @@
+# ---------- setup.sh ----------
 #!/usr/bin/env bash
+set -euo pipefail
 
-dir=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+export SCRIPT_DIR            # sub-scripts rely on this
 
-read -p $'\nUpdate apt and install core packages? [y/N] ' -r
-if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-    sudo apt update && sudo apt -y upgrade
-    sudo apt install -y git curl wget vim htop tree
+case "$(uname -s)" in
+    Linux)   bash "$SCRIPT_DIR/setup-linux.sh"  ;;
+    Darwin)  bash "$SCRIPT_DIR/setup-mac.sh"    ;;
+    *)       echo "Unsupported OS"; exit 1      ;;
+esac
 
-    # fancier packages
-    sudo apt install -y bat fzf ripgrep ncdu
+# -------- common steps --------
+# Install Vim configuration
+if [[ ! -d "$HOME/.vim_runtime" ]]; then
+    git clone --depth=1 https://github.com/amix/vimrc.git "$HOME/.vim_runtime"
+    sh "$HOME/.vim_runtime/install_awesome_vimrc.sh"
 fi
 
-# Install Vim config
-git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
-sh ~/.vim_runtime/install_awesome_vimrc.sh
-
 # Link dotfiles
-ln -sf "$dir/gitconfig" ~/.gitconfig
-ln -sf "$dir/gitignore" ~/.gitignore
-ln -sf "$dir/bash_aliases" ~/.bash_aliases
-ln -sf "$dir/config/fish/config.fish" ~/.config/fish/config.fish
-ln -sf "$dir/config/tmux.conf" ~/.tmux.conf
+ln -sf "$SCRIPT_DIR/gitconfig"               "$HOME/.gitconfig"
+ln -sf "$SCRIPT_DIR/gitignore"               "$HOME/.gitignore"
+ln -sf "$SCRIPT_DIR/bash_aliases"            "$HOME/.bash_aliases"
+mkdir -p "$HOME/.config/fish"
+ln -sf "$SCRIPT_DIR/config/fish/config.fish" "$HOME/.config/fish/config.fish"
+ln -sf "$SCRIPT_DIR/config/tmux.conf"        "$HOME/.tmux.conf"
 
 # Install Rust
-if ! command -v rustc &> /dev/null; then
+if ! command -v rustc >/dev/null 2>&1; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source "$HOME/.cargo/env"
 fi
 
 # Install uv
-if ! command -v uv &> /dev/null; then
+if ! command -v uv >/dev/null 2>&1; then
     curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
 # Install zoxide
-if ! command -v zoxide &> /dev/null; then
+if ! command -v zoxide >/dev/null 2>&1; then
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-    echo "eval \"\$(zoxide init bash --cmd cd)\"" >> ~/.bashrc
-    echo "export _ZO_DOCTOR=0" >> ~/.bashrc
+    echo 'eval "$(zoxide init bash --cmd cd)"' >> "$HOME/.bashrc"
+    echo 'export _ZO_DOCTOR=0'                 >> "$HOME/.bashrc"
 fi
 
-# Install Rust CLI tools
-read -p $'\nInstall cargo packages? This is slow. [y/N] ' -r
+# Optional Rust CLI set (slow, so ask)
+read -p $'\nInstall cargo packages? [y/N] ' -r
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-    . "$dir/cargo-setup.sh"
+    bash "$SCRIPT_DIR/cargo-setup.sh"
 fi
 
-# Install magic-trace
-if ! command -v magic-trace &> /dev/null; then
-    arch=$(uname -m)
-    if [[ "$arch" != "x86_64" ]]; then
-        echo "[-] magic-trace only supports x86_64 architectures. Skipping install."
-    else
-        mkdir -p ~/.local/bin
-        curl -Lo ~/.local/bin/magic-trace https://github.com/janestreet/magic-trace/releases/download/v1.2.4/magic-trace
-        chmod +x ~/.local/bin/magic-trace
-    fi
-fi
-
-# Prompt to change default shell to fish
-if command -v fish &> /dev/null; then
+# Offer to switch default shell to fish
+if command -v fish >/dev/null 2>&1; then
     read -p $'\nChange default shell to fish? [y/N] ' -r
     if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-        fish_path=$(command -v fish)
-
-        # Add fish to /etc/shells if missing
-        if ! grep -qx "$fish_path" /etc/shells; then
-            echo "[*] Adding $fish_path to /etc/shells (requires sudo)"
-            echo "$fish_path" | sudo tee -a /etc/shells > /dev/null
+        FISH_PATH="$(command -v fish)"
+        if ! grep -qx "$FISH_PATH" /etc/shells; then
+            echo "[*] Adding $FISH_PATH to /etc/shells (sudo)"
+            echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
         fi
-
-        chsh -s "$fish_path" && echo "[+] Default shell changed to: $fish_path"
-
-        echo "Launching fish..."
+        chsh -s "$FISH_PATH" && echo "[+] Default shell changed."
         exec fish
     fi
 fi

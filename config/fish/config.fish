@@ -10,8 +10,10 @@ if not contains "$HOME/.local/bin" $PATH
 end
 
 zoxide init fish --cmd cd | source
+/opt/homebrew/bin/brew shellenv | source
 
 alias copy='fish_clipboard_copy'
 alias paste='fish_clipboard_paste'
 
+# For blinking cursor
 echo -ne "\e[5 q"
