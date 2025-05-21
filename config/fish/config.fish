@@ -10,7 +10,9 @@ if not contains "$HOME/.local/bin" $PATH
 end
 
 zoxide init fish --cmd cd | source
-/opt/homebrew/bin/brew shellenv | source
+if test -x /opt/homebrew/bin/brew
+    /opt/homebrew/bin/brew shellenv | source
+end
 
 alias copy='fish_clipboard_copy'
 alias paste='fish_clipboard_paste'
