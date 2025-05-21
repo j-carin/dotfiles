@@ -57,11 +57,21 @@ if ! command -v magic-trace &> /dev/null; then
     fi
 fi
 
-# Final shell reload
-if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
-    source ~/.bashrc
-else
-    echo "To apply shell changes, run:"
-    echo "    source ~/.bashrc"
-fi
+# Prompt to change default shell to fish
+if command -v fish &> /dev/null; then
+    read -p $'\nChange default shell to fish? [y/N] ' -r
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        fish_path=$(command -v fish)
 
+        # Add fish to /etc/shells if missing
+        if ! grep -qx "$fish_path" /etc/shells; then
+            echo "[*] Adding $fish_path to /etc/shells (requires sudo)"
+            echo "$fish_path" | sudo tee -a /etc/shells > /dev/null
+        fi
+
+        chsh -s "$fish_path" && echo "[+] Default shell changed to: $fish_path"
+
+        echo "Launching fish..."
+        exec fish
+    fi
+fi
