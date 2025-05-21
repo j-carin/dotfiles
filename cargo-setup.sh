@@ -13,4 +13,3 @@ cargo install \
     git-delta \
     samply \
     code2prompt
-
