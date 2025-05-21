@@ -10,3 +10,8 @@ if not contains "$HOME/.local/bin" $PATH
 end
 
 zoxide init fish --cmd cd | source
+
+alias copy='fish_clipboard_copy'
+alias paste='fish_clipboard_paste'
+
+echo -ne "\e[5 q"
