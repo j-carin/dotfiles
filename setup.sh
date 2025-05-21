@@ -19,7 +19,8 @@ sh ~/.vim_runtime/install_awesome_vimrc.sh
 ln -sf "$dir/gitconfig" ~/.gitconfig
 ln -sf "$dir/gitignore" ~/.gitignore
 ln -sf "$dir/bash_aliases" ~/.bash_aliases
-ln -sf "$dir/.config/fish/config.fish" ~/.config/fish/config.fish
+ln -sf "$dir/config/fish/config.fish" ~/.config/fish/config.fish
+ln -sf "$dir/config/tmux.conf" ~/.tmux.conf
 
 # Install Rust
 if ! command -v rustc &> /dev/null; then
