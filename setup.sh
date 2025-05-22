@@ -17,14 +17,6 @@ if [[ ! -d "$HOME/.vim_runtime" ]]; then
     sh "$HOME/.vim_runtime/install_awesome_vimrc.sh"
 fi
 
-# Link dotfiles
-ln -sf "$SCRIPT_DIR/gitconfig"               "$HOME/.gitconfig"
-ln -sf "$SCRIPT_DIR/gitignore"               "$HOME/.gitignore"
-ln -sf "$SCRIPT_DIR/bash_aliases"            "$HOME/.bash_aliases"
-mkdir -p "$HOME/.config/fish"
-ln -sf "$SCRIPT_DIR/config/fish/config.fish" "$HOME/.config/fish/config.fish"
-ln -sf "$SCRIPT_DIR/config/tmux.conf"        "$HOME/.tmux.conf"
-
 # Install Rust
 if ! command -v rustc >/dev/null 2>&1; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -48,6 +40,8 @@ read -p $'\nInstall cargo packages? [y/N] ' -r
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     bash "$SCRIPT_DIR/cargo-setup.sh"
 fi
+
+bash "$SCRIPT_DIR/ln.sh"
 
 # Offer to switch default shell to fish
 if command -v fish >/dev/null 2>&1; then
