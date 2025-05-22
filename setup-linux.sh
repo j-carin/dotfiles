@@ -3,9 +3,10 @@ set -euo pipefail
 
 read -p $'\nUpdate apt and install core packages? [y/N] ' -r
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    sudo apt-add-repository ppa:fish-shell/release-3
     sudo apt update && sudo apt -y upgrade
-    sudo apt install -y git curl wget vim htop tree
-    sudo apt install -y bat fzf ripgrep ncdu
+    sudo apt install -y git curl wget vim htop tree pkg-config
+    sudo apt install -y bat fzf ripgrep ncdu fish
 fi
 
 # Install magic-trace (x86_64 only)

@@ -12,4 +12,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 cargo install \
     git-delta \
     samply \
-    code2prompt
+    code2prompt \
+    ffsend \
+    procs \
+    bottom
