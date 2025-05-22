@@ -11,5 +11,5 @@ fi
 read -p $'\nUpdate Homebrew and install core packages? [y/N] ' -r
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     brew update
-    brew install git curl wget vim htop tree bat fzf ripgrep ncdu
+    brew install git curl wget vim htop tree bat fzf ripgrep ncdu fish tmux
 fi
