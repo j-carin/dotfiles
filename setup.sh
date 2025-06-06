@@ -4,6 +4,12 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 export SCRIPT_DIR            # sub-scripts rely on this
 
+# Check for -y flag
+export AUTO_YES=false
+if [[ "${1:-}" == "-y" ]]; then
+    export AUTO_YES=true
+fi
+
 case "$(uname -s)" in
     Linux)   bash "$SCRIPT_DIR/setup-linux.sh"  ;;
     Darwin)  bash "$SCRIPT_DIR/setup-mac.sh"    ;;
@@ -36,7 +42,11 @@ if ! command -v zoxide >/dev/null 2>&1; then
 fi
 
 # Optional Rust CLI set (slow, so ask)
-read -p $'\nInstall cargo packages? [y/N] ' -r
+if [[ "$AUTO_YES" == "true" ]]; then
+    REPLY="y"
+else
+    read -p $'\nInstall cargo packages? [y/N] ' -r
+fi
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     bash "$SCRIPT_DIR/cargo-setup.sh"
 fi
@@ -45,7 +55,11 @@ bash "$SCRIPT_DIR/ln.sh"
 
 # Offer to switch default shell to fish
 if command -v fish >/dev/null 2>&1; then
-    read -p $'\nChange default shell to fish? [y/N] ' -r
+    if [[ "$AUTO_YES" == "true" ]]; then
+        REPLY="y"
+    else
+        read -p $'\nChange default shell to fish? [y/N] ' -r
+    fi
     if [[ "$REPLY" =~ ^[Yy]$ ]]; then
         FISH_PATH="$(command -v fish)"
         if ! grep -qx "$FISH_PATH" /etc/shells; then

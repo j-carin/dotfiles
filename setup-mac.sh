@@ -8,7 +8,11 @@ if ! command -v brew >/dev/null 2>&1; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-read -p $'\nUpdate Homebrew and install core packages? [y/N] ' -r
+if [[ "${AUTO_YES:-false}" == "true" ]]; then
+    REPLY="y"
+else
+    read -p $'\nUpdate Homebrew and install core packages? [y/N] ' -r
+fi
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     brew update
     brew install git curl wget vim htop tree bat fzf ripgrep ncdu fish tmux
