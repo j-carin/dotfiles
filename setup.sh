@@ -53,6 +53,18 @@ fi
 
 bash "$SCRIPT_DIR/ln.sh"
 
+# Optional Claude Code CLI installation (requires fish)
+if command -v fish >/dev/null 2>&1; then
+    if [[ "$AUTO_YES" == "true" ]]; then
+        REPLY="y"
+    else
+        read -p $'\nInstall Claude Code CLI? [y/N] ' -r
+    fi
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        bash "$SCRIPT_DIR/claude-setup.sh"
+    fi
+fi
+
 # Offer to switch default shell to fish
 if command -v fish >/dev/null 2>&1; then
     if [[ "$AUTO_YES" == "true" ]]; then
@@ -67,17 +79,6 @@ if command -v fish >/dev/null 2>&1; then
             echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
         fi
         chsh -s "$FISH_PATH" && echo "[+] Default shell changed."
-        
-        # Optional Claude Code CLI installation (after fish is set up)
-        if [[ "$AUTO_YES" == "true" ]]; then
-            REPLY="y"
-        else
-            read -p $'\nInstall Claude Code CLI? [y/N] ' -r
-        fi
-        if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-            bash "$SCRIPT_DIR/claude-setup.sh"
-        fi
-        
         exec fish
     fi
 fi

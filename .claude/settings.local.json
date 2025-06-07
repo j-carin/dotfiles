@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git pull:*)",
+      "Bash(git merge:*)",
+      "Bash(./claude-setup.sh:*)"
+    ],
+    "deny": []
+  }
+}
