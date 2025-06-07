@@ -53,6 +53,13 @@ if command -v fish >/dev/null 2>&1; then
             echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
         fi
         chsh -s "$FISH_PATH" && echo "[+] Default shell changed."
+        
+        # Optional Claude Code CLI installation (after fish is set up)
+        read -p $'\nInstall Claude Code CLI? [y/N] ' -r
+        if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+            bash "$SCRIPT_DIR/claude-setup.sh"
+        fi
+        
         exec fish
     fi
 fi
