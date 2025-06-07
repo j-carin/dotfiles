@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-read -p $'\nUpdate apt and install core packages? [y/N] ' -r
+if [[ "${AUTO_YES:-false}" == "true" ]]; then
+    REPLY="y"
+else
+    read -p $'\nUpdate apt and install core packages? [y/N] ' -r
+fi
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     sudo apt-add-repository ppa:fish-shell/release-3
     sudo apt update && sudo apt -y upgrade
