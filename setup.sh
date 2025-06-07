@@ -37,8 +37,11 @@ fi
 # Install zoxide
 if ! command -v zoxide >/dev/null 2>&1; then
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-    echo 'eval "$(zoxide init bash --cmd cd)"' >> "$HOME/.bashrc"
-    echo 'export _ZO_DOCTOR=0'                 >> "$HOME/.bashrc"
+    # Add to .bashrc if not already present
+    if ! grep -q "zoxide init bash" "$HOME/.bashrc" 2>/dev/null; then
+        echo 'eval "$(zoxide init bash --cmd cd)"' >> "$HOME/.bashrc"
+        echo 'export _ZO_DOCTOR=0'                 >> "$HOME/.bashrc"
+    fi
 fi
 
 # Optional Rust CLI set (slow, so ask)
@@ -53,16 +56,14 @@ fi
 
 bash "$SCRIPT_DIR/ln.sh"
 
-# Optional Claude Code CLI installation (requires fish)
-if command -v fish >/dev/null 2>&1; then
-    if [[ "$AUTO_YES" == "true" ]]; then
-        REPLY="y"
-    else
-        read -p $'\nInstall Claude Code CLI? [y/N] ' -r
-    fi
-    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-        bash "$SCRIPT_DIR/claude-setup.sh"
-    fi
+# Optional Claude Code CLI installation
+if [[ "$AUTO_YES" == "true" ]]; then
+    REPLY="y"
+else
+    read -p $'\nInstall Claude Code CLI? [y/N] ' -r
+fi
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    bash "$SCRIPT_DIR/claude-setup.sh"
 fi
 
 # Offer to switch default shell to fish
@@ -78,7 +79,7 @@ if command -v fish >/dev/null 2>&1; then
             echo "[*] Adding $FISH_PATH to /etc/shells (sudo)"
             echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
         fi
-        chsh -s "$FISH_PATH" && echo "[+] Default shell changed."
+        sudo chsh -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
         exec fish
     fi
 fi
