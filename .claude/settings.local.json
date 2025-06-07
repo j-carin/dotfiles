@@ -6,7 +6,9 @@
       "Bash(git add:*)",
       "Bash(git pull:*)",
       "Bash(git merge:*)",
-      "Bash(./claude-setup.sh:*)"
+      "Bash(./claude-setup.sh:*)",
+      "Bash(git push:*)",
+      "Bash(git branch:*)"
     ],
     "deny": []
   }
