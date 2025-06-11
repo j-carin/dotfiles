@@ -21,6 +21,20 @@ if command -q npm
     end
 end
 
+# Load environment variables from secrets
+if test -f "$HOME/dotfiles/secrets/secrets.env"
+    for line in (cat "$HOME/dotfiles/secrets/secrets.env")
+        # Skip empty lines and comments
+        if test -n "$line" -a (string sub -s 1 -l 1 -- "$line") != "#"
+            # Split on first = and export
+            set key_value (string split -m 1 "=" -- "$line")
+            if test (count $key_value) -eq 2
+                set -gx $key_value[1] $key_value[2]
+            end
+        end
+    end
+end
+
 zoxide init fish --cmd cd | source
 if test -x /opt/homebrew/bin/brew
     /opt/homebrew/bin/brew shellenv | source

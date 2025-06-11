@@ -17,6 +17,11 @@ case "$(uname -s)" in
 esac
 
 # -------- common steps --------
+# Initialize git submodules (for secrets)
+if [[ -d ".git" ]]; then
+    echo "[*] Initializing git submodules..."
+    git submodule update --init --recursive
+fi
 # Install Vim configuration
 if [[ ! -d "$HOME/.vim_runtime" ]]; then
     git clone --depth=1 https://github.com/amix/vimrc.git "$HOME/.vim_runtime"

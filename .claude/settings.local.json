@@ -11,7 +11,17 @@
       "Bash(git branch:*)",
       "Bash(git commit:*)",
       "Bash(mv:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git clone:*)",
+      "Bash(rm:*)",
+      "Bash(git -C /tmp/secrets-setup add secrets.env)",
+      "Bash(git -C /tmp/secrets-setup commit -m \"Add initial secrets.env template with placeholder keys\")",
+      "Bash(git -C /tmp/secrets-setup push)",
+      "Bash(git submodule add:*)",
+      "Bash(git -C secrets add secrets.env)",
+      "Bash(git -C secrets commit -m \"Update with real API keys (OpenAI and OpenRouter)\")",
+      "Bash(git -C secrets push)"
     ],
     "deny": []
   }
