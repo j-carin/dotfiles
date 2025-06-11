@@ -71,15 +71,15 @@ if command -v fish >/dev/null 2>&1; then
         fi
         sudo chsh -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
         
-        # Optional Claude Code CLI installation (requires fish)
+        # Optional AI tools installation (requires fish)
         if [[ "$AUTO_YES" == "true" ]]; then
-            CLAUDE_REPLY="y"
+            AI_REPLY="y"
         else
-            read -p $'\nInstall Claude Code CLI? [y/N] ' -r CLAUDE_REPLY
+            read -p $'\nInstall AI tools (Claude Code CLI and OpenAI Codex)? [y/N] ' -r AI_REPLY
         fi
-        if [[ "$CLAUDE_REPLY" =~ ^[Yy]$ ]]; then
-            echo "[*] Claude Code CLI will be installed in fish shell..."
-            exec fish -c "source $SCRIPT_DIR/claude-setup.sh"
+        if [[ "$AI_REPLY" =~ ^[Yy]$ ]]; then
+            echo "[*] AI tools will be installed in fish shell..."
+            exec fish -c "source $SCRIPT_DIR/setup-ai.sh"
         else
             exec fish
         fi

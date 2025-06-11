@@ -13,7 +13,7 @@ This is a personal dotfiles repository for configuring development environments 
 - `./setup-linux.sh` - Linux-specific package installation (uses apt)
 - `./setup-mac.sh` - macOS-specific package installation (uses Homebrew)
 - `./cargo-setup.sh` - Installs additional Rust CLI tools (git-delta, samply, code2prompt, etc.)
-- `./claude-setup.sh` - Installs Claude Code CLI with Node.js via nvm.fish
+- `./setup-ai.sh` - Installs AI tools (Claude Code CLI and OpenAI Codex) with Node.js via nvm.fish
 - `./ln.sh` - Creates symbolic links for all configuration files
 
 ### Configuration Management
@@ -28,21 +28,23 @@ The repository uses symbolic linking to manage dotfiles. All configurations are 
 4. User is prompted for optional Rust CLI tools installation
 5. `ln.sh` creates symbolic links for all dotfiles
 6. Optional shell change to fish with proper configuration
-7. If fish is chosen, user is prompted for optional Claude Code CLI installation
+7. If fish is chosen, user is prompted for optional AI tools installation
 
-### Claude Code CLI Setup
-The `claude-setup.sh` script handles the complete installation of Claude Code CLI:
+### AI Tools Setup
+The `setup-ai.sh` script handles the complete installation of AI development tools:
 - Installs Fisher plugin manager for fish shell
 - Installs nvm.fish for Node.js version management
 - Installs Node.js 22 and sets it as default via ~/.nvmrc
 - Configures fish to auto-activate Node.js and adds npm global bin to PATH
-- Installs @anthropic-ai/claude-code globally via npm
+- Installs @anthropic-ai/claude-code and @openai/codex globally via npm
+- Creates OpenAI Codex configuration with o3 model settings
 - Verifies installation and provides usage instructions
 
 ### Configuration Structure
 - `config/fish/config.fish` - Fish shell configuration with PATH management and tool initialization
 - `config/tmux.conf` - tmux configuration with custom prefix (C-x) and clipboard integration
 - `config/ghostty/config` - Terminal emulator theme configuration
+- `config/codex/config.json` - OpenAI Codex configuration with o3 model and full-auto approval mode
 - `gitconfig` and `gitignore` - Git configuration files
 - `bash_aliases` - Bash alias definitions
 

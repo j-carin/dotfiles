@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-echo "[*] Installing Claude Code CLI with fish and nvm.fish..."
+echo "[*] Installing AI tools (Claude Code CLI and OpenAI Codex) with fish and nvm.fish..."
 
 # Install Fisher plugin manager if not present
 if not functions -q fisher
@@ -25,20 +25,36 @@ echo "[*] Setting Node.js 22 as default..."
 nvm use 22
 echo "22" > ~/.nvmrc
 
-# Install Claude Code CLI globally
+# Install AI CLI tools globally
 echo "[*] Installing @anthropic-ai/claude-code..."
 npm install -g @anthropic-ai/claude-code
 
+echo "[*] Installing @openai/codex..."
+npm install -g @openai/codex
+
 # Verify installation
 echo "[*] Verifying installation..."
-if command -q claude
+set -l claude_installed (command -q claude; and echo "yes"; or echo "no")
+set -l codex_installed (command -q codex; and echo "yes"; or echo "no")
+
+if test $claude_installed = "yes"
     echo "[+] Claude Code CLI installed successfully!"
     echo "Try: claude --help"
-    echo ""
-    echo "Node.js version: "(node --version)
-    echo "npm global prefix: "(npm config get prefix)
 else
-    echo "[-] Installation verification failed."
+    echo "[-] Claude Code CLI installation verification failed."
+end
+
+if test $codex_installed = "yes"
+    echo "[+] OpenAI Codex installed successfully!"
+    echo "Try: codex --help"
+else
+    echo "[-] OpenAI Codex installation verification failed."
+end
+
+echo ""
+echo "Node.js version: "(node --version)
+echo "npm global prefix: "(npm config get prefix)
+
+if test $claude_installed = "no" -o $codex_installed = "no"
     echo "Current PATH: $PATH"
-    echo "npm global prefix: "(npm config get prefix)
 end
