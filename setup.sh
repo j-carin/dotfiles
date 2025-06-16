@@ -61,7 +61,6 @@ fi
 
 # Create Claude configuration directory and settings
 mkdir -p "$HOME/.claude"
-cp "$SCRIPT_DIR/claude-settings.json" "$HOME/.claude/settings.json"
 
 bash "$SCRIPT_DIR/ln.sh"
 
@@ -79,7 +78,7 @@ if command -v fish >/dev/null 2>&1; then
             echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
         fi
         sudo chsh -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
-        
+
         # Optional AI tools installation (requires fish)
         if [[ "$AUTO_YES" == "true" ]]; then
             AI_REPLY="y"

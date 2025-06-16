@@ -10,7 +10,7 @@ if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     sudo apt-add-repository -y ppa:fish-shell/release-3
     sudo apt update && sudo apt -y upgrade
     sudo apt install -y git curl wget vim htop tree pkg-config libssl-dev
-    sudo apt install -y bat fzf ripgrep ncdu fish tmux
+    sudo apt install -y bat fzf ripgrep ncdu fish tmux gh
 fi
 
 # Install magic-trace (x86_64 only)
