@@ -21,7 +21,11 @@
       "Bash(git submodule add:*)",
       "Bash(git -C secrets add secrets.env)",
       "Bash(git -C secrets commit -m \"Update with real API keys (OpenAI and OpenRouter)\")",
-      "Bash(git -C secrets push)"
+      "Bash(sudo apt remove:*)",
+      "Bash(sudo apt autoremove:*)",
+      "Bash(bash:*)",
+      "Bash(./setup.sh:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }

@@ -51,7 +51,6 @@
 
 # Version control internals (precaution)
 .svn/
-*.patch
 *.orig
 *.rej
 

@@ -59,6 +59,10 @@ if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     bash "$SCRIPT_DIR/cargo-setup.sh"
 fi
 
+# Create Claude configuration directory and settings
+mkdir -p "$HOME/.claude"
+cp "$SCRIPT_DIR/claude-settings.json" "$HOME/.claude/settings.json"
+
 bash "$SCRIPT_DIR/ln.sh"
 
 # Offer to switch default shell to fish
