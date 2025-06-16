@@ -43,5 +43,8 @@ end
 alias copy='fish_clipboard_copy'
 alias paste='fish_clipboard_paste'
 
-# For blinking cursor
-echo -ne "\e[5 q"
+# For blinking cursor – only in interactive shells so that
+# non-interactive programs such as rsync do not see stray bytes
+if status is-interactive
+    echo -ne "\e[5 q"
+end
