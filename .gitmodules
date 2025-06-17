@@ -1,3 +1,4 @@
 [submodule "secrets"]
 	path = secrets
 	url = git@github.com:j-carin/dotfiles-secrets.git
+	branch = main
