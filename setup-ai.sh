@@ -40,15 +40,6 @@ npm install -g @anthropic-ai/claude-code
 echo "[*] Installing @openai/codex..."
 npm install -g @openai/codex
 
-# Create OpenAI Codex configuration
-echo "[*] Creating OpenAI Codex configuration..."
-mkdir -p ~/.config/codex
-cat > ~/.config/codex/config.json << 'EOF'
-{
-  "model": "o3",
-  "approval_mode": "full-auto"
-}
-EOF
 
 # Verify installation
 echo "[*] Verifying installation..."
