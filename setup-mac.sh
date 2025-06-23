@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Load shared utilities
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+source "$SCRIPT_DIR/setup-common.sh"
+
 # Ensure Homebrew exists
-if ! command -v brew >/dev/null 2>&1; then
-    echo "[*] Installing Homebrew (requires Xcode Command Line Tools)"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+ensure_homebrew
+
+# Prompt for package installation
+prompt_user $'\nUpdate Homebrew and install core packages? [y/N] '
+
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    # Install core packages (now includes gh that was missing)
+    install_packages "${CORE_PACKAGES[@]}"
 fi
 
-if [[ "${AUTO_YES:-false}" == "true" ]]; then
-    REPLY="y"
-else
-    read -p $'\nUpdate Homebrew and install core packages? [y/N] ' -r
-fi
-if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-    brew update
-    brew install git curl wget vim htop tree bat fzf ripgrep ncdu fish tmux
-fi
+# Install platform-specific tools
+install_platform_specific

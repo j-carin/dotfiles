@@ -27,8 +27,9 @@ This is a personal dotfiles repository for configuring development environments 
 
 ### Setup and Installation
 - `./setup.sh` - Main setup script that detects OS and runs appropriate platform-specific setup
-- `./setup-linux.sh` - Linux-specific package installation (uses apt)
-- `./setup-mac.sh` - macOS-specific package installation (uses Homebrew)
+- `./setup-common.sh` - Shared utilities and package lists used by platform-specific scripts
+- `./setup-linux.sh` - Linux-specific package installation (uses apt) - sources setup-common.sh
+- `./setup-mac.sh` - macOS-specific package installation (uses Homebrew) - sources setup-common.sh
 - `./cargo-setup.sh` - Installs additional Rust CLI tools (git-delta, samply, code2prompt, etc.)
 - `./setup-ai.sh` - Installs AI tools (Claude Code CLI and OpenAI Codex) with Node.js via nvm.fish
 - `./ln.sh` - Creates symbolic links for all configuration files
@@ -49,12 +50,23 @@ This is a personal dotfiles repository for configuring development environments 
 
 ### Setup Flow
 1. Main `setup.sh` detects OS and delegates to platform-specific scripts
-2. Platform scripts install core packages and tools
-3. Common tools (Rust, uv, zoxide, Vim configuration) are installed cross-platform
-4. User is prompted for optional Rust CLI tools installation
-5. `ln.sh` creates symbolic links for all dotfiles
-6. Optional shell change to fish with proper configuration
-7. If fish is chosen, user is prompted for optional AI tools installation
+2. Platform scripts source `setup-common.sh` for shared utilities and package lists
+3. Platform scripts install core packages using shared abstractions
+4. Platform-specific tools are installed (e.g., magic-trace on Linux)
+5. Common tools (Rust, uv, zoxide, Vim configuration) are installed cross-platform
+6. User is prompted for optional Rust CLI tools installation
+7. `ln.sh` creates symbolic links for all dotfiles
+8. Optional shell change to fish with proper configuration
+9. If fish is chosen, user is prompted for optional AI tools installation
+
+### Shared Utilities (`setup-common.sh`)
+The setup system uses shared utilities to reduce code duplication:
+- `CORE_PACKAGES` - Common packages installed on all platforms (includes gh now on macOS)
+- `LINUX_SPECIFIC` - Additional packages only needed on Linux
+- `prompt_user()` - Consistent user prompt handling with AUTO_YES support
+- `install_packages()` - Package manager abstraction (apt vs brew)
+- `install_platform_specific()` - Platform-specific tool installation
+- `ensure_homebrew()` - macOS Homebrew installation helper
 
 ### AI Tools Setup
 The `setup-ai.sh` script handles the complete installation of AI development tools:
