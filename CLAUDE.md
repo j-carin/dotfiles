@@ -17,7 +17,16 @@ This is a personal dotfiles repository for configuring development environments 
 - `./ln.sh` - Creates symbolic links for all configuration files
 
 ### Configuration Management
-The repository uses symbolic linking to manage dotfiles. All configurations are linked from this repository to their expected locations in the home directory.
+**CRITICAL**: This repository uses ONLY symbolic linking for configuration management via `ln.sh`. 
+
+**NEVER create configuration files directly** - all configs must be:
+1. Created in the appropriate `config/` subdirectory in this repo
+2. Linked via `ln.sh` (which runs automatically during setup)
+
+**Before modifying any config-related code, ALWAYS check:**
+- What's already in `config/` directory
+- How `ln.sh` handles that config type
+- Follow the existing symlink pattern
 
 ## Architecture
 
@@ -37,7 +46,7 @@ The `setup-ai.sh` script handles the complete installation of AI development too
 - Installs Node.js 22 and sets it as default via ~/.nvmrc
 - Configures fish to auto-activate Node.js and adds npm global bin to PATH
 - Installs @anthropic-ai/claude-code and @openai/codex globally via npm
-- Creates OpenAI Codex configuration with o3 model settings
+- OpenAI Codex configuration is already managed by ln.sh symlink system
 - Verifies installation and provides usage instructions
 
 ### Configuration Structure
