@@ -51,6 +51,12 @@ install_platform_specific() {
                     echo "[-] magic-trace unsupported on this architecture."
                 fi
             fi
+            
+            # Create bat symlink (Ubuntu installs as batcat)
+            if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
+                echo "[*] Creating bat symlink for batcat..."
+                sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
+            fi
             ;;
         Darwin)
             # macOS-specific tools can be added here
