@@ -14,8 +14,11 @@ if not functions -q nvm
     fisher install jorgebucaran/nvm.fish
 end
 
+# Reload fish configuration to ensure nvm is available
+source ~/.config/fish/config.fish 2>/dev/null || true
+
 # Install Node.js 22 if not present
-if not nvm list | grep -q v22
+if not nvm list 2>/dev/null | grep -q v22
     echo "[*] Installing Node.js 22..."
     nvm install 22
 end
@@ -25,12 +28,27 @@ echo "[*] Setting Node.js 22 as default..."
 nvm use 22
 echo "22" > ~/.nvmrc
 
+# Ensure npm global bin is in PATH for current session
+if test -d (npm config get prefix)/bin
+    fish_add_path (npm config get prefix)/bin
+end
+
 # Install AI CLI tools globally
 echo "[*] Installing @anthropic-ai/claude-code..."
 npm install -g @anthropic-ai/claude-code
 
 echo "[*] Installing @openai/codex..."
 npm install -g @openai/codex
+
+# Create OpenAI Codex configuration
+echo "[*] Creating OpenAI Codex configuration..."
+mkdir -p ~/.config/codex
+cat > ~/.config/codex/config.json << 'EOF'
+{
+  "model": "o3",
+  "approval_mode": "full-auto"
+}
+EOF
 
 # Verify installation
 echo "[*] Verifying installation..."
@@ -57,4 +75,7 @@ echo "npm global prefix: "(npm config get prefix)
 
 if test $claude_installed = "no" -o $codex_installed = "no"
     echo "Current PATH: $PATH"
+    echo ""
+    echo "If tools are not found, try restarting your shell or running:"
+    echo "  fish_add_path "(npm config get prefix)"/bin"
 end
