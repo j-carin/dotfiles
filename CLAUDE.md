@@ -2,6 +2,23 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## CRITICAL RULES - READ FIRST
+
+1. **ALWAYS read existing code before making ANY changes**
+   - Read the full script you're modifying
+   - Read related scripts (setup.sh, ln.sh, etc.)
+   - Understand the existing patterns and architecture
+
+2. **Shell compatibility matters**
+   - `setup-ai.sh` is fish shell script - use fish syntax only
+   - Other setup scripts are bash - don't mix syntaxes
+   - Test syntax compatibility (heredocs don't work in fish)
+
+3. **Follow established patterns**
+   - Configuration: use `config/` + `ln.sh` symlinks ONLY
+   - Don't duplicate functionality that already exists
+   - If unsure, grep the codebase to see how similar tasks are handled
+
 ## Repository Overview
 
 This is a personal dotfiles repository for configuring development environments across Linux and macOS systems. The setup scripts automate the installation of development tools and configuration of shell environments.
