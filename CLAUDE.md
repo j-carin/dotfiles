@@ -52,7 +52,9 @@ This is a personal dotfiles repository for configuring development environments 
 1. Main `setup.sh` detects OS and delegates to platform-specific scripts
 2. Platform scripts source `setup-common.sh` for shared utilities and package lists
 3. Platform scripts install core packages using shared abstractions
-4. Platform-specific tools are installed (e.g., magic-trace on Linux)
+4. Platform-specific tools and fixes are applied:
+   - **Linux**: magic-trace (x86_64), bat→batcat symlink, Linux-specific packages
+   - **macOS**: Homebrew setup, macOS-specific configurations
 5. Common tools (Rust, uv, zoxide, Vim configuration) are installed cross-platform
 6. User is prompted for optional Rust CLI tools installation
 7. `ln.sh` creates symbolic links for all dotfiles
@@ -62,11 +64,15 @@ This is a personal dotfiles repository for configuring development environments 
 ### Shared Utilities (`setup-common.sh`)
 The setup system uses shared utilities to reduce code duplication:
 - `CORE_PACKAGES` - Common packages installed on all platforms (includes gh now on macOS)
-- `LINUX_SPECIFIC` - Additional packages only needed on Linux
+- `LINUX_SPECIFIC` - Additional packages only needed on Linux (pkg-config, libssl-dev)
 - `prompt_user()` - Consistent user prompt handling with AUTO_YES support
 - `install_packages()` - Package manager abstraction (apt vs brew)
-- `install_platform_specific()` - Platform-specific tool installation
+- `install_platform_specific()` - Platform-specific tool installation and fixes
 - `ensure_homebrew()` - macOS Homebrew installation helper
+
+**Platform-specific fixes handled automatically:**
+- **Linux**: Creates `bat` symlink (Ubuntu installs as `batcat`), installs magic-trace on x86_64
+- **macOS**: No package name conflicts, `bat` installs correctly via Homebrew
 
 ### AI Tools Setup
 The `setup-ai.sh` script handles the complete installation of AI development tools:
