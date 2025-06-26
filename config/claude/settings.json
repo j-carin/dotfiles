@@ -1,16 +1,20 @@
 {
+  "env": {
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1"
+  },
+  "includeCoAuthoredBy": true,
   "permissions": {
     "allow": [
       "Bash",
       "Glob",
-      "Grep", 
+      "Grep",
       "LS",
       "Read",
       "Edit",
       "MultiEdit",
       "Write",
       "NotebookRead",
-      "NotebookEdit", 
+      "NotebookEdit",
       "WebFetch",
       "TodoRead",
       "TodoWrite",
@@ -18,8 +22,5 @@
       "Task"
     ]
   },
-  "env": {
-    "CLAUDE_CODE_ENABLE_TELEMETRY": "1"
-  },
-  "includeCoAuthoredBy": true
+  "model": "sonnet"
 }
