@@ -40,16 +40,9 @@ npm install -g @anthropic-ai/claude-code
 echo "[*] Installing @openai/codex..."
 npm install -g @openai/codex
 
-# Install zen-mcp-server by cloning and running their setup script
-if not test -d "$HOME/.zen-mcp-server"
-    echo "[*] Cloning zen-mcp-server..."
-    git clone https://github.com/BeehiveInnovations/zen-mcp-server.git "$HOME/.zen-mcp-server"
-end
-
+# Install zen-mcp-server using uvx method
 echo "[*] Setting up zen-mcp-server..."
-cd "$HOME/.zen-mcp-server"
-bash ./run-server.sh -c > /dev/null 2>&1 || echo "[!] zen-mcp-server setup completed"
-cd -
+bash (dirname (status --current-filename))/mcp.sh
 
 # Verify installation
 echo "[*] Verifying installation..."
