@@ -35,6 +35,9 @@
 [pull]
 	rebase = true
 
+[submodule]
+	recurse = true
+
 [interactive]
 	diffFilter = delta --color-only
 
