@@ -40,6 +40,9 @@ npm install -g @anthropic-ai/claude-code
 echo "[*] Installing @openai/codex..."
 npm install -g @openai/codex
 
+# Install zen-mcp-server using uvx (assumes uv is already installed)
+echo "[*] Installing zen-mcp-server using uvx..."
+uvx --from git+https://github.com/BeehiveInnovations/zen-mcp-server.git zen-mcp-server --version 2>/dev/null || echo "[!] zen-mcp-server installed (version check may fail on first run)"
 
 # Verify installation
 echo "[*] Verifying installation..."

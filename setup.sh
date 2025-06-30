@@ -77,7 +77,7 @@ if command -v fish >/dev/null 2>&1; then
             echo "[*] Adding $FISH_PATH to /etc/shells (sudo)"
             echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
         fi
-        sudo chsh -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
+        sudo usermod -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
 
         # Optional AI tools installation (requires fish)
         if [[ "$AUTO_YES" == "true" ]]; then
