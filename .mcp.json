@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "zen": {
+      "type": "stdio",
+      "command": "sh",
+      "args": [
+        "-c",
+        "exec /home/ubuntu/.local/bin/uvx --from git+https://github.com/BeehiveInnovations/zen-mcp-server.git zen-mcp-server"
+      ],
+      "env": {}
+    }
+  }
+}
