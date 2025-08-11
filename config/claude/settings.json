@@ -22,5 +22,8 @@
       "Task"
     ]
   },
-  "model": "sonnet"
+  "model": "sonnet",
+  "feedbackSurveyState": {
+    "lastShownTime": 1753999688719
+  }
 }

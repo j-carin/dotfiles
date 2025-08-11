@@ -22,6 +22,25 @@ if [[ -d ".git" ]]; then
     echo "[*] Initializing git submodules..."
     git submodule update --init --recursive
 fi
+
+# Optional: Enable passwordless sudo
+if [[ "$AUTO_YES" == "true" ]]; then
+    REPLY="y"
+else
+    read -p $'\nEnable passwordless sudo? [y/N] ' -r
+fi
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    USERNAME=$(whoami)
+    SUDOERS_LINE="$USERNAME ALL=(ALL) NOPASSWD: ALL"
+    echo "[*] Configuring passwordless sudo for $USERNAME..."
+    echo "$SUDOERS_LINE" | sudo tee /etc/sudoers.d/nopasswd-$USERNAME > /dev/null
+    if [ $? -eq 0 ]; then
+        echo "[+] Passwordless sudo configured successfully"
+    else
+        echo "[!] Failed to configure passwordless sudo"
+    fi
+fi
+
 # Install Vim configuration
 if [[ ! -d "$HOME/.vim_runtime" ]]; then
     git clone --depth=1 https://github.com/amix/vimrc.git "$HOME/.vim_runtime"
