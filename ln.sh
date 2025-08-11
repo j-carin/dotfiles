@@ -4,7 +4,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 
 mkdir -p "$HOME/.config/fish"
 mkdir -p "$HOME/.config/ghostty"
-mkdir -p "$HOME/.config/gdrive3"
 mkdir -p "$HOME/.codex"
 mkdir -p "$HOME/.claude"
 
@@ -21,5 +20,5 @@ ln -sf "$SCRIPT_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
 
 # Link secrets (if available)
 if [ -d "$SCRIPT_DIR/secrets/gdrive3" ]; then
-    ln -sf "$SCRIPT_DIR/secrets/gdrive3"/* "$HOME/.config/gdrive3/"
+    ln -sf "$SCRIPT_DIR/secrets/gdrive3" "$HOME/.config/gdrive3"
 fi
