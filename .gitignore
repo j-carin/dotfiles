@@ -1,2 +1,3 @@
 # Backup protection for secrets submodule
 secrets/
+.claude/
