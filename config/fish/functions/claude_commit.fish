@@ -37,5 +37,8 @@ function claude_commit
     end
     
     cat $output_file
+    echo
+    cat $output_file | git commit -F -
+    
     rm $output_file
 end
