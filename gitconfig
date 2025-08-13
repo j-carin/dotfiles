@@ -19,6 +19,7 @@
 	lg = log --graph --oneline --all --decorate
 	type = cat-file -t
 	dump = cat-file -p
+	cc = !fish -c claude_commit
 
 [push]
 	default = simple
