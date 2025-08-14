@@ -38,6 +38,8 @@ end
 zoxide init fish --cmd cd | source
 if test -x /opt/homebrew/bin/brew
     /opt/homebrew/bin/brew shellenv | source
+    # Disable Homebrew auto-update when installing packages
+    set -gx HOMEBREW_NO_AUTO_UPDATE 1
 end
 
 alias copy='fish_clipboard_copy'
