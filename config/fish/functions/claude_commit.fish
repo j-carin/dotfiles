@@ -11,20 +11,23 @@ function claude_commit
     end
     
     set temp_file (mktemp)
-    echo "Write a git commit message in conventional commit format for these changes. Output ONLY the commit message and nothing else:" > $temp_file
+    echo "Write a git commit message in conventional commit format for these changes. Output ONLY the commit message:" > $temp_file
     echo "" >> $temp_file
-    echo "Format: <type>: <brief description>" >> $temp_file
+    echo "Format: <type>[(scope)]: <brief description> (max 50 chars)" >> $temp_file
+    echo "Use scope when multiple modules affected (e.g., fix(auth): ...)" >> $temp_file
     echo "" >> $temp_file
-    echo "<detailed list of changes>" >> $temp_file
+    echo "- Bullet point list of key changes (max 72 chars per line)" >> $temp_file
+    echo "- Focus on important parts, not every detail" >> $temp_file
+    echo "- Skip trivial changes (formatting, imports, renames)" >> $temp_file
     echo "" >> $temp_file
-    echo "Types: feat (new feature), fix (bug fix), docs (documentation), style (formatting), refactor (code restructure), test (tests), chore (maintenance), or pick another type if applicable" >> $temp_file
+    echo "Types: feat (new feature), fix (bug fix), docs (documentation), style (formatting), refactor (code restructure), test (tests), chore (maintenance)" >> $temp_file
     echo "" >> $temp_file
-    echo "IMPORTANT: Be specific about what changed. Instead of vague descriptions like 'improve error handling', use concrete details like 'add git repo validation check' or 'replace interactive confirmation with direct stdin commit'. Focus on actual code changes, function names, and specific behaviors modified." >> $temp_file
+    echo "Be specific but concise. Mention key functions/behaviors changed, but don't list every single modification." >> $temp_file
     echo "" >> $temp_file
     echo "Git status:" >> $temp_file
     git status --short >> $temp_file
     echo "" >> $temp_file
-    echo "Detailed changes:" >> $temp_file
+    echo "Git diff:" >> $temp_file
     git diff --cached --no-color >> $temp_file
     
     set output_file (mktemp)
