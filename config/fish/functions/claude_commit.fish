@@ -36,9 +36,28 @@ function claude_commit
         return 1
     end
     
-    cat $output_file
-    echo
-    cat $output_file | git commit -F -
+    # Check if we're in an interactive terminal
+    if isatty
+        # Open in vim for editing
+        vim $output_file
+        
+        # Check if file still exists and has content after vim
+        if test -s "$output_file"
+            git commit -F "$output_file"
+        else
+            echo "Commit cancelled"
+        end
+    else
+        # Non-interactive: show message and prompt y/n
+        cat $output_file
+        echo
+        read -P "Commit with this message? (y/n): " -n 1 confirm
+        if test "$confirm" = "y"
+            cat $output_file | git commit -F -
+        else
+            echo "Commit cancelled"
+        end
+    end
     
-    rm $output_file
+    rm -f $output_file
 end
