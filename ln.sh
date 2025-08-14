@@ -24,6 +24,7 @@ ln -sf "$SCRIPT_DIR/config/tmux.conf"        "$HOME/.tmux.conf"
 ln -sf "$SCRIPT_DIR/config/ghostty/config"   "$HOME/.config/ghostty/config"
 ln -sf "$SCRIPT_DIR/config/codex/config.json" "$HOME/.codex/config.json"
 ln -sf "$SCRIPT_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+ln -sf "$SCRIPT_DIR/config/claude/commands" "$HOME/.claude/commands"
 
 if [ -d "$SCRIPT_DIR/secrets/gdrive3" ]; then
     ln -sf "$SCRIPT_DIR/secrets/gdrive3" "$HOME/.config/gdrive3"
