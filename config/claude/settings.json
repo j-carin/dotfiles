@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "env": {
     "CLAUDE_CODE_ENABLE_TELEMETRY": "1"
   },
@@ -22,8 +23,8 @@
       "Task"
     ]
   },
-  "model": "sonnet",
+  "model": "opus",
   "feedbackSurveyState": {
-    "lastShownTime": 1753999688719
+    "lastShownTime": 1754332344490
   }
 }
