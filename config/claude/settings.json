@@ -3,7 +3,7 @@
   "env": {
     "CLAUDE_CODE_ENABLE_TELEMETRY": "1"
   },
-  "includeCoAuthoredBy": true,
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Bash",
@@ -23,8 +23,12 @@
       "Task"
     ]
   },
-  "model": "opus",
+  "model": "opusplan",
   "feedbackSurveyState": {
     "lastShownTime": 1754332344490
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y @owloops/claude-powerline@latest --theme=rose-pine --style=powerline"
   }
 }
