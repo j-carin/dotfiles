@@ -24,11 +24,11 @@
     ]
   },
   "model": "opusplan",
-  "feedbackSurveyState": {
-    "lastShownTime": 1754332344490
-  },
   "statusLine": {
     "type": "command",
     "command": "npx -y @owloops/claude-powerline@latest --theme=rose-pine --style=powerline"
-  }
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754332344490
+  },
 }
