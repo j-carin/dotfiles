@@ -11,8 +11,8 @@ if [[ "${1:-}" == "-y" ]]; then
 fi
 
 case "$(uname -s)" in
-    Linux)   bash "$SCRIPT_DIR/setup-linux.sh"  ;;
-    Darwin)  bash "$SCRIPT_DIR/setup-mac.sh"    ;;
+    Linux)   bash "$SCRIPT_DIR/scripts/setup/linux.sh"  ;;
+    Darwin)  bash "$SCRIPT_DIR/scripts/setup/mac.sh"    ;;
     *)       echo "Unsupported OS"; exit 1      ;;
 esac
 
@@ -75,7 +75,7 @@ else
     read -p $'\nInstall cargo packages? [y/N] ' -r
 fi
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-    bash "$SCRIPT_DIR/cargo-setup.sh"
+    bash "$SCRIPT_DIR/scripts/tools/cargo.sh"
 fi
 
 # Create Claude configuration directory and settings
@@ -106,7 +106,7 @@ if command -v fish >/dev/null 2>&1; then
         fi
         if [[ "$AI_REPLY" =~ ^[Yy]$ ]]; then
             echo "[*] AI tools will be installed in fish shell..."
-            exec fish -c "source $SCRIPT_DIR/setup-ai.sh"
+            exec fish -c "source $SCRIPT_DIR/scripts/tools/ai.sh"
         else
             exec fish
         fi

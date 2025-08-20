@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Load shared utilities
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-source "$SCRIPT_DIR/setup-common.sh"
+source "$SCRIPT_DIR/common.sh"
 
 # Ensure Homebrew exists
 ensure_homebrew

@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - Understand the existing patterns and architecture
 
 2. **Shell compatibility matters**
-   - `setup-ai.sh` is fish shell script - use fish syntax only
+   - `scripts/tools/ai.sh` is fish shell script - use fish syntax only
    - Other setup scripts are bash - don't mix syntaxes
    - Test syntax compatibility (heredocs don't work in fish)
 
@@ -27,11 +27,11 @@ This is a personal dotfiles repository for configuring development environments 
 
 ### Setup and Installation
 - `./setup.sh` - Main setup script that detects OS and runs appropriate platform-specific setup
-- `./setup-common.sh` - Shared utilities and package lists used by platform-specific scripts
-- `./setup-linux.sh` - Linux-specific package installation (uses apt) - sources setup-common.sh
-- `./setup-mac.sh` - macOS-specific package installation (uses Homebrew) - sources setup-common.sh
-- `./cargo-setup.sh` - Installs additional Rust CLI tools (git-delta, samply, code2prompt, etc.)
-- `./setup-ai.sh` - Installs AI tools (Claude Code CLI and OpenAI Codex) with Node.js via nvm.fish
+- `./scripts/setup/common.sh` - Shared utilities and package lists used by platform-specific scripts
+- `./scripts/setup/linux.sh` - Linux-specific package installation (uses apt) - sources common.sh
+- `./scripts/setup/mac.sh` - macOS-specific package installation (uses Homebrew) - sources common.sh
+- `./scripts/tools/cargo.sh` - Installs additional Rust CLI tools (git-delta, samply, code2prompt, etc.)
+- `./scripts/tools/ai.sh` - Installs AI tools (Claude Code CLI and OpenAI Codex) with Node.js via nvm.fish
 - `./ln.sh` - Creates symbolic links for all configuration files
 
 ### Configuration Management
@@ -75,7 +75,7 @@ The setup system uses shared utilities to reduce code duplication:
 - **macOS**: No package name conflicts, `bat` installs correctly via Homebrew
 
 ### AI Tools Setup
-The `setup-ai.sh` script handles the complete installation of AI development tools:
+The `scripts/tools/ai.sh` script handles the complete installation of AI development tools:
 - Installs Fisher plugin manager for fish shell
 - Installs nvm.fish for Node.js version management
 - Installs Node.js 22 and sets it as default via ~/.nvmrc

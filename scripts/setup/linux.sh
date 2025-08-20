@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Load shared utilities
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-source "$SCRIPT_DIR/setup-common.sh"
+source "$SCRIPT_DIR/common.sh"
 
 # Prompt for package installation
 prompt_user $'\nUpdate apt and install core packages? [y/N] '
