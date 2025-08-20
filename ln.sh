@@ -37,5 +37,5 @@ done
 
 # gdrive
 if [ -d "$SCRIPT_DIR/secrets/gdrive3" ]; then
-    ln -sf "$SCRIPT_DIR/secrets/gdrive3" "$HOME/.config/gdrive3"
+    ln -sfn "$SCRIPT_DIR/secrets/gdrive3" "$HOME/.config/gdrive3"
 fi
