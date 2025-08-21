@@ -31,7 +31,7 @@ function claude_commit
     git diff --cached --no-color >> $temp_file
     
     set output_file (mktemp)
-    claude --model sonnet --print < $temp_file > $output_file
+    claude --model claude-3-5-haiku-latest --print < $temp_file > $output_file
     rm $temp_file
     
     if test ! -s "$output_file"
