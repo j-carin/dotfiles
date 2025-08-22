@@ -49,6 +49,9 @@ alias paste='fish_clipboard_paste'
 # non-interactive programs such as rsync do not see stray bytes
 if status is-interactive
     echo -ne "\e[5 q"
-    # Check for dotfiles updates in background (non-blocking)
     dotfiles_sync_check
+    set behind_count (git -C ~/dotfiles rev-list --count HEAD..@{upstream} 2>/dev/null || echo "0")
+    if test "$behind_count" -gt 0
+        echo "dotfiles: Updates available ($behind_count commits). Type 'dotfiles_pull' to update."
+    end
 end
