@@ -49,4 +49,6 @@ alias paste='fish_clipboard_paste'
 # non-interactive programs such as rsync do not see stray bytes
 if status is-interactive
     echo -ne "\e[5 q"
+    # Check for dotfiles updates in background (non-blocking)
+    dotfiles_sync_check
 end
