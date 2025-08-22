@@ -6,6 +6,10 @@ else
     exit 1
 fi
 
+# Update Rust to latest stable version
+echo "[*] Updating Rust toolchain..."
+rustup update
+
 mkdir -p ~/.local/bin
 export PATH="$HOME/.cargo/bin:$PATH"
 
