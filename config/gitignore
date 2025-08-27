@@ -46,7 +46,6 @@
 
 # Logs and dumps
 **/*.log
-**/core
 **/vgcore.*
 
 # Version control internals (precaution)

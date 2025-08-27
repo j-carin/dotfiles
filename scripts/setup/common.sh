@@ -21,7 +21,7 @@ install_packages() {
     
     case "$(uname -s)" in
         Linux)
-            sudo apt-add-repository -y ppa:fish-shell/release-3
+            sudo apt-add-repository -y ppa:fish-shell/release-4
             sudo apt update && sudo apt -y upgrade
             sudo apt install -y "${packages[@]}"
             ;;
