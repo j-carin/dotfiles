@@ -44,10 +44,6 @@
 **/.ninja_log
 **/.ninja_deps
 
-# Logs and dumps
-**/*.log
-**/vgcore.*
-
 # Version control internals (precaution)
 .svn/
 *.orig
