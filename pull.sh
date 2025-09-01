@@ -1,4 +1,5 @@
 #!/bin/bash
+cd "$(dirname "$0")"
 if ! git diff-index --quiet HEAD --; then
     read -p "You have uncommitted changes. Continue (local changes will be discarded)? (y/N) " -n 1 -r
     echo
