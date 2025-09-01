@@ -28,6 +28,10 @@ echo "[*] Setting Node.js 22 as default..."
 nvm use 22
 echo "22" > ~/.nvmrc
 
+# Update npm to latest version
+echo "[*] Updating npm to latest version..."
+npm install -g npm@latest
+
 # Ensure npm global bin is in PATH for current session
 if test -d (npm config get prefix)/bin
     fish_add_path (npm config get prefix)/bin
