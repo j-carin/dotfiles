@@ -83,6 +83,10 @@ mkdir -p "$HOME/.claude"
 
 bash "$SCRIPT_DIR/ln.sh"
 
+# Compile terminfo for xterm-ghostty
+echo "[*] Compiling terminfo for xterm-ghostty..."
+tic -x -o "$HOME/.terminfo" "$SCRIPT_DIR/config/terminfo/xterm-ghostty.src"
+
 # Offer to switch default shell to fish
 if command -v fish >/dev/null 2>&1; then
     if [[ "$AUTO_YES" == "true" ]]; then
