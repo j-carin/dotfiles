@@ -123,4 +123,6 @@ EOF
             exec fish
         fi
     fi
+else
+    echo "fish not installed."
 fi
