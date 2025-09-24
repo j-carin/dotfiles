@@ -1,6 +1,20 @@
 set -g fish_greeting
 set -U EDITOR vim
 
+# Keep SSH agent socket stable so tmux panes survive reconnects.
+set -l ssh_agent_symlink "$HOME/.ssh/agent.sock"
+set -l orig_sock ""
+if set -q SSH_AUTH_SOCK_ORIG
+    set orig_sock $SSH_AUTH_SOCK_ORIG
+else if set -q SSH_AUTH_SOCK
+    set orig_sock $SSH_AUTH_SOCK
+end
+if test -n "$orig_sock" -a -S "$orig_sock" -a "$orig_sock" != "$ssh_agent_symlink"
+    mkdir -p "$HOME/.ssh"
+    ln -snf "$orig_sock" "$ssh_agent_symlink"
+end
+set -gx SSH_AUTH_SOCK "$ssh_agent_symlink"
+
 if not contains "$HOME/.cargo/bin" $PATH
     set -gx PATH "$HOME/.cargo/bin" $PATH
 end
