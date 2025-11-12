@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-echo "[*] Installing AI tools (Claude Code CLI and OpenAI Codex) with fish and nvm.fish..."
+echo "[*] Installing AI tools (Claude Code CLI and OpenAI Codex)..."
 
 # Install Fisher plugin manager if not present
 if not functions -q fisher
@@ -37,9 +37,9 @@ if test -d (npm config get prefix)/bin
     fish_add_path (npm config get prefix)/bin
 end
 
-# Install AI CLI tools globally
-echo "[*] Installing @anthropic-ai/claude-code..."
-npm install -g @anthropic-ai/claude-code
+# Install Claude Code CLI using official installer
+echo "[*] Installing Claude Code CLI..."
+bash -c 'curl -fsSL https://claude.ai/install.sh | bash'
 
 echo "[*] Installing @openai/codex..."
 npm install -g @openai/codex
