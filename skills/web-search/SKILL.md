@@ -1,6 +1,6 @@
 ---
 name: web-search
-description: Search the web for up-to-date information using GPT-5.2 with web search. Use for complex queries requiring current info, recent news, up-to-date documentation, or facts that may have changed since your training cutoff.
+description: Search the web for up-to-date information using GPT-5.2 with web search and high reasoning. Prefer this over webfetch when you need to research complex queries, find current info across multiple sources, get recent news, up-to-date documentation, or verify facts that may have changed since your training cutoff. Returns cited sources.
 ---
 
 ## What this skill does
