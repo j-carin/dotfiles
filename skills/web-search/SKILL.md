@@ -1,6 +1,6 @@
 ---
 name: web-search
-description: Search the web for up-to-date information with complex queries
+description: Search the web for up-to-date information using GPT-5.2 with web search. Use for complex queries requiring current info, recent news, up-to-date documentation, or facts that may have changed since your training cutoff.
 ---
 
 ## What this skill does
@@ -20,12 +20,12 @@ Searches the web using a reasoning model with web search capabilities. Returns c
 Run the search script with your query as an argument:
 
 ```bash
-uv run ~/.config/opencode/skill/web-search/search.py "your search query here"
+uv run ~/.opencode/skill/web-search/search.py "your search query here"
 ```
 
 **Example:**
 ```bash
-uv run ~/.config/opencode/skill/web-search/search.py "What are the latest features in Python 3.13?"
+uv run ~/.opencode/skill/web-search/search.py "What are the latest features in Python 3.13?"
 ```
 
 ## Important notes
