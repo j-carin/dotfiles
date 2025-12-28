@@ -17,15 +17,21 @@ Searches the web using a reasoning model with web search capabilities. Returns c
 
 ## How to use
 
-Run the search script with your query as an argument:
+Run the search script with your query as an argument.
+
+**Query format:** Use full sentences, paragraphs, or lists of questions - not keyword searches. The model handles detailed, multi-part prompts well.
 
 ```bash
-uv run ~/.opencode/skill/web-search/search.py "your search query here"
+uv run ~/.config/opencode/skill/web-search/search.py "your detailed query here"
 ```
 
-**Example:**
+**Examples:**
 ```bash
-uv run ~/.opencode/skill/web-search/search.py "What are the latest features in Python 3.13?"
+uv run ~/.config/opencode/skill/web-search/search.py "What are the latest features in Python 3.13? I'm particularly interested in the new REPL improvements and any performance enhancements."
+```
+
+```bash
+uv run ~/.config/opencode/skill/web-search/search.py "I need to understand how Font Awesome licenses their icons. Can I use their Pro icons in an open source project? What are the restrictions for SVG downloads versus the web font?"
 ```
 
 ## Important notes
