@@ -7,7 +7,7 @@ mkdir -p "$HOME/.config/fish/functions"
 mkdir -p "$HOME/.config/ghostty"
 mkdir -p "$HOME/.codex"
 mkdir -p "$HOME/.claude"
-mkdir -p "$HOME/.opencode"
+mkdir -p "$HOME/.config/opencode"
 
 # dotfiles
 ln -sf "$SCRIPT_DIR/config/gitconfig"        "$HOME/.gitconfig"
@@ -22,7 +22,8 @@ ln -sf "$SCRIPT_DIR/config/ghostty/config"   "$HOME/.config/ghostty/config"
 ln -sf "$SCRIPT_DIR/config/codex/config.json" "$HOME/.codex/config.json"
 
 # opencode
-ln -sf "$SCRIPT_DIR/config/opencode/opencode.json" "$HOME/.opencode/opencode.json"
+ln -sf "$SCRIPT_DIR/config/opencode/opencode.json" "$HOME/.config/opencode/opencode.json"
+ln -sfn "$SCRIPT_DIR/skills" "$HOME/.config/opencode/skill"
 
 # claude code
 for claude_file in "$SCRIPT_DIR/config/claude"/*; do
