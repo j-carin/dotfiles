@@ -69,3 +69,9 @@ if status is-interactive
         echo "dotfiles: Updates available ($behind_count commits). Type 'dotfiles_pull' to update."
     end
 end
+
+# Added by Antigravity
+fish_add_path /Users/jer/.antigravity/antigravity/bin
+
+# opencode
+fish_add_path /Users/jer/.opencode/bin

@@ -27,8 +27,8 @@
     "type": "command",
     "command": "npx -y @owloops/claude-powerline@latest --theme=rose-pine --style=powerline"
   },
+  "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754332344490
-  },
-  "alwaysThinkingEnabled": true
+  }
 }
