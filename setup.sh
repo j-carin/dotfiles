@@ -78,9 +78,6 @@ if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     bash "$SCRIPT_DIR/scripts/tools/cargo.sh"
 fi
 
-# Create Claude configuration directory and settings
-mkdir -p "$HOME/.claude"
-
 bash "$SCRIPT_DIR/ln.sh"
 
 # Compile terminfo for xterm-ghostty
@@ -102,26 +99,15 @@ if command -v fish >/dev/null 2>&1; then
         fi
         sudo usermod -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
 
-        # Optional AI tools installation (requires fish)
         if [[ "$AUTO_YES" == "true" ]]; then
-            AI_REPLY="y"
+            OC_REPLY="y"
         else
-            read -p $'\nInstall AI tools (Claude Code CLI and OpenAI Codex)? [y/N] ' -r AI_REPLY
+            read -p $'\nInstall OpenCode? [y/N] ' -r OC_REPLY
         fi
-        if [[ "$AI_REPLY" =~ ^[Yy]$ ]]; then
-            echo "[*] AI tools will be installed in fish shell..."
-            # Use a proper fish wrapper instead of exec to maintain script context
-            fish_wrapper_script=$(mktemp)
-            cat > "$fish_wrapper_script" << 'EOF'
-#!/usr/bin/env fish
-source "$argv[1]"
-EOF
-            chmod +x "$fish_wrapper_script"
-            "$fish_wrapper_script" "$SCRIPT_DIR/scripts/tools/ai.sh"
-            rm "$fish_wrapper_script"
-        else
-            exec fish
+        if [[ "$OC_REPLY" =~ ^[Yy]$ ]]; then
+            curl -fsSL https://opencode.ai/install | bash
         fi
+        exec fish
     fi
 else
     echo "fish not installed."
