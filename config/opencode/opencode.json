@@ -4,7 +4,6 @@
     "leader": "ctrl+l"
   },
   "plugin": [
-    "opencode-openai-codex-auth@latest",
     "opencode-gemini-auth@latest"
   ]
 }
