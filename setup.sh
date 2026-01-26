@@ -17,10 +17,12 @@ case "$(uname -s)" in
 esac
 
 # -------- common steps --------
-# Initialize git submodules (for secrets)
+# Initialize git submodules (for secrets) - optional, continue if it fails
 if [[ -d ".git" ]]; then
     echo "[*] Initializing git submodules..."
-    git submodule update --init --recursive
+    if ! git submodule update --init --recursive; then
+        echo "[!] Warning: Failed to initialize git submodules (secrets). Continuing anyway..."
+    fi
 fi
 
 # Optional: Enable passwordless sudo
@@ -97,7 +99,11 @@ if command -v fish >/dev/null 2>&1; then
             echo "[*] Adding $FISH_PATH to /etc/shells (sudo)"
             echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
         fi
-        sudo usermod -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
+        if [[ "$(uname -s)" == "Darwin" ]]; then
+            chsh -s "$FISH_PATH" && echo "[+] Default shell changed."
+        else
+            sudo usermod -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
+        fi
 
         if [[ "$AUTO_YES" == "true" ]]; then
             OC_REPLY="y"

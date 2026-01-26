@@ -1,2 +1,4 @@
 theme = catppuccin-mocha
 keybind = shift+enter=text:\n
+command = /opt/homebrew/bin/fish
+shell-integration-features = ssh-terminfo
