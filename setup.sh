@@ -60,6 +60,23 @@ if ! command -v uv >/dev/null 2>&1; then
     curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
+# Install nvm + Node.js LTS + pi-coding-agent
+export NVM_DIR="$HOME/.nvm"
+if [[ ! -d "$NVM_DIR" ]]; then
+    echo "[*] Installing nvm..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+fi
+# Load nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+if ! command -v node >/dev/null 2>&1; then
+    echo "[*] Installing Node.js LTS..."
+    nvm install --lts
+fi
+if ! command -v pi >/dev/null 2>&1; then
+    echo "[*] Installing pi-coding-agent..."
+    npm install -g @mariozechner/pi-coding-agent
+fi
+
 # Install zoxide
 if ! command -v zoxide >/dev/null 2>&1; then
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
@@ -105,14 +122,12 @@ if command -v fish >/dev/null 2>&1; then
             sudo usermod -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
         fi
 
-        if [[ "$AUTO_YES" == "true" ]]; then
-            OC_REPLY="y"
-        else
-            read -p $'\nInstall OpenCode? [y/N] ' -r OC_REPLY
-        fi
-        if [[ "$OC_REPLY" =~ ^[Yy]$ ]]; then
-            curl -fsSL https://opencode.ai/install | bash
-        fi
+        # Install fisher + nvm.fish for fish shell
+        echo "[*] Installing fisher and nvm.fish for fish..."
+        fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher' 2>/dev/null || true
+        fish -c 'fisher install jorgebucaran/nvm.fish' 2>/dev/null || true
+        fish -c 'set -U nvm_default_version lts' 2>/dev/null || true
+
         exec fish
     fi
 else

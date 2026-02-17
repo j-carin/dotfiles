@@ -5,7 +5,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 mkdir -p "$HOME/.config/fish"
 mkdir -p "$HOME/.config/fish/functions"
 mkdir -p "$HOME/.config/ghostty"
-mkdir -p "$HOME/.config/opencode"
 
 # dotfiles
 ln -sf "$SCRIPT_DIR/config/gitconfig"        "$HOME/.gitconfig"
@@ -15,12 +14,6 @@ ln -sf "$SCRIPT_DIR/config/bash_aliases"     "$HOME/.bash_aliases"
 # terminal
 ln -sf "$SCRIPT_DIR/config/tmux.conf"        "$HOME/.tmux.conf"
 ln -sf "$SCRIPT_DIR/config/ghostty/config"   "$HOME/.config/ghostty/config"
-
-# opencode
-ln -sf "$SCRIPT_DIR/config/opencode/opencode.json" "$HOME/.config/opencode/opencode.json"
-ln -sf "$SCRIPT_DIR/config/opencode/AGENTS.md" "$HOME/.config/opencode/AGENTS.md"
-ln -sfn "$SCRIPT_DIR/config/opencode/command" "$HOME/.config/opencode/command"
-ln -sfn "$SCRIPT_DIR/skills" "$HOME/.config/opencode/skill"
 
 # fish
 ln -sf "$SCRIPT_DIR/config/fish/config.fish" "$HOME/.config/fish/config.fish"

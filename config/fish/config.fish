@@ -73,5 +73,3 @@ end
 # Added by Antigravity
 fish_add_path $HOME/.antigravity/antigravity/bin
 
-# opencode
-fish_add_path $HOME/.opencode/bin
