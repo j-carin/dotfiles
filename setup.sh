@@ -76,6 +76,34 @@ else
 fi
 
 # Install Node.js LTS + coding-agent tools
+ensure_node_lts_bash() {
+    export NVM_DIR="$HOME/.nvm"
+    if [[ ! -d "$NVM_DIR" ]]; then
+        echo "[*] Installing nvm..."
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    fi
+
+    # nvm scripts are not consistently nounset-safe; setup.sh runs with `set -u`.
+    local had_u=0
+    [[ $- == *u* ]] && had_u=1
+    set +u
+
+    # shellcheck source=/dev/null
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    if ! command -v nvm >/dev/null 2>&1; then
+        echo "[!] Warning: nvm failed to load in bash context"
+        [[ $had_u -eq 1 ]] && set -u
+        return 1
+    fi
+
+    echo "[*] Ensuring Node.js LTS is installed (bash nvm context)..."
+    nvm install --lts
+    nvm alias default 'lts/*' >/dev/null
+    nvm use --lts >/dev/null
+
+    [[ $had_u -eq 1 ]] && set -u
+}
+
 if [[ "$USE_FISH" == "true" ]]; then
     echo "[*] Installing fisher and nvm.fish for fish..."
     if ! fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'; then
@@ -85,25 +113,16 @@ if [[ "$USE_FISH" == "true" ]]; then
         echo "[!] Warning: Failed to install nvm.fish"
     fi
 
-    echo "[*] Ensuring Node.js LTS is installed for fish nvm..."
-    if ! fish -c 'nvm install lts && nvm use lts && set -U nvm_default_version lts'; then
-        echo "[!] Warning: Failed to install/use Node.js LTS in fish"
+    echo "[*] Setting fish nvm default to LTS..."
+    if ! fish -c 'set -U nvm_default_version lts; nvm install lts; nvm use lts >/dev/null'; then
+        echo "[!] Warning: Failed to configure fish nvm LTS"
     fi
+fi
 
-    bash "$SCRIPT_DIR/scripts/tools/coding-agent.sh" fish
-else
-    export NVM_DIR="$HOME/.nvm"
-    if [[ ! -d "$NVM_DIR" ]]; then
-        echo "[*] Installing nvm..."
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-    fi
-    # Load nvm
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    if ! command -v node >/dev/null 2>&1; then
-        echo "[*] Installing Node.js LTS..."
-        nvm install --lts
-    fi
+if ensure_node_lts_bash; then
     bash "$SCRIPT_DIR/scripts/tools/coding-agent.sh" bash
+else
+    echo "[!] Warning: Skipping coding-agent install because Node.js LTS setup failed"
 fi
 
 # Install zoxide
@@ -145,5 +164,8 @@ if [[ "$USE_FISH" == "true" ]]; then
         sudo usermod -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
     fi
 
+    echo "[+] Setup completed successfully."
     exec fish
 fi
+
+echo "[+] Setup completed successfully."
