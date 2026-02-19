@@ -60,21 +60,50 @@ if ! command -v uv >/dev/null 2>&1; then
     curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
-# Install nvm + Node.js LTS + pi-coding-agent
-export NVM_DIR="$HOME/.nvm"
-if [[ ! -d "$NVM_DIR" ]]; then
-    echo "[*] Installing nvm..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+# Ask once whether to use fish as default shell (fish-first setup flow)
+USE_FISH=false
+if command -v fish >/dev/null 2>&1; then
+    if [[ "$AUTO_YES" == "true" ]]; then
+        REPLY="y"
+    else
+        read -p $'\nChange default shell to fish? [y/N] ' -r
+    fi
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        USE_FISH=true
+    fi
+else
+    echo "fish not installed."
 fi
-# Load nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-if ! command -v node >/dev/null 2>&1; then
-    echo "[*] Installing Node.js LTS..."
-    nvm install --lts
-fi
-if ! command -v pi >/dev/null 2>&1; then
-    echo "[*] Installing pi-coding-agent..."
-    npm install -g @mariozechner/pi-coding-agent
+
+# Install Node.js LTS + coding-agent tools
+if [[ "$USE_FISH" == "true" ]]; then
+    echo "[*] Installing fisher and nvm.fish for fish..."
+    if ! fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'; then
+        echo "[!] Warning: Failed to install fisher"
+    fi
+    if ! fish -c 'fisher install jorgebucaran/nvm.fish'; then
+        echo "[!] Warning: Failed to install nvm.fish"
+    fi
+
+    echo "[*] Ensuring Node.js LTS is installed for fish nvm..."
+    if ! fish -c 'nvm install lts && nvm use lts && set -U nvm_default_version lts'; then
+        echo "[!] Warning: Failed to install/use Node.js LTS in fish"
+    fi
+
+    bash "$SCRIPT_DIR/scripts/tools/coding-agent.sh" fish
+else
+    export NVM_DIR="$HOME/.nvm"
+    if [[ ! -d "$NVM_DIR" ]]; then
+        echo "[*] Installing nvm..."
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    fi
+    # Load nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    if ! command -v node >/dev/null 2>&1; then
+        echo "[*] Installing Node.js LTS..."
+        nvm install --lts
+    fi
+    bash "$SCRIPT_DIR/scripts/tools/coding-agent.sh" bash
 fi
 
 # Install zoxide
@@ -103,33 +132,18 @@ bash "$SCRIPT_DIR/ln.sh"
 echo "[*] Compiling terminfo for xterm-ghostty..."
 tic -x -o "$HOME/.terminfo" "$SCRIPT_DIR/config/terminfo/xterm-ghostty.src"
 
-# Offer to switch default shell to fish
-if command -v fish >/dev/null 2>&1; then
-    if [[ "$AUTO_YES" == "true" ]]; then
-        REPLY="y"
+# Apply default shell change if fish was selected earlier
+if [[ "$USE_FISH" == "true" ]]; then
+    FISH_PATH="$(command -v fish)"
+    if ! grep -qx "$FISH_PATH" /etc/shells; then
+        echo "[*] Adding $FISH_PATH to /etc/shells (sudo)"
+        echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
+    fi
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        chsh -s "$FISH_PATH" && echo "[+] Default shell changed."
     else
-        read -p $'\nChange default shell to fish? [y/N] ' -r
+        sudo usermod -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
     fi
-    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-        FISH_PATH="$(command -v fish)"
-        if ! grep -qx "$FISH_PATH" /etc/shells; then
-            echo "[*] Adding $FISH_PATH to /etc/shells (sudo)"
-            echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
-        fi
-        if [[ "$(uname -s)" == "Darwin" ]]; then
-            chsh -s "$FISH_PATH" && echo "[+] Default shell changed."
-        else
-            sudo usermod -s "$FISH_PATH" "$USER" && echo "[+] Default shell changed."
-        fi
 
-        # Install fisher + nvm.fish for fish shell
-        echo "[*] Installing fisher and nvm.fish for fish..."
-        fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher' 2>/dev/null || true
-        fish -c 'fisher install jorgebucaran/nvm.fish' 2>/dev/null || true
-        fish -c 'set -U nvm_default_version lts' 2>/dev/null || true
-
-        exec fish
-    fi
-else
-    echo "fish not installed."
+    exec fish
 fi
