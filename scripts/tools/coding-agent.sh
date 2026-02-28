@@ -2,9 +2,14 @@
 set -euo pipefail
 
 MODE="${1:-bash}"
-PI_PACKAGES=(
+PI_NPM_PACKAGES=(
     @mariozechner/pi-coding-agent
     @tmustier/pi-ralph-wiggum
+)
+PI_AGENT_PACKAGES=(
+    npm:@tmustier/pi-ralph-wiggum
+    npm:pi-subagents
+    npm:pi-web-access
 )
 
 install_claude_code() {
@@ -26,7 +31,7 @@ install_pi_tools_bash() {
     fi
 
     echo "[*] Installing pi tools (bash nvm context)..."
-    if ! npm install -g "${PI_PACKAGES[@]}"; then
+    if ! npm install -g "${PI_NPM_PACKAGES[@]}"; then
         echo "[!] Warning: Failed to install pi tools via npm"
     fi
 }
@@ -43,6 +48,21 @@ install_pi_tools_fish() {
     fi
 }
 
+configure_pi_packages() {
+    if ! command -v pi >/dev/null 2>&1; then
+        echo "[!] Warning: pi command not found; skipping pi package configuration"
+        return
+    fi
+
+    echo "[*] Installing pi packages..."
+    for package in "${PI_AGENT_PACKAGES[@]}"; do
+        if ! pi install "$package"; then
+            echo "[!] Warning: Failed to install $package"
+        fi
+    done
+
+}
+
 install_claude_code
 
 case "$MODE" in
@@ -57,3 +77,5 @@ case "$MODE" in
         exit 1
         ;;
 esac
+
+configure_pi_packages
