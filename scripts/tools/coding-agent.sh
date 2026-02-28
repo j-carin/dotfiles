@@ -10,6 +10,7 @@ PI_AGENT_PACKAGES=(
     npm:@tmustier/pi-ralph-wiggum
     npm:pi-subagents
     npm:pi-web-access
+    npm:@plannotator/pi-extension
 )
 
 install_claude_code() {
