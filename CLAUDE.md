@@ -92,7 +92,8 @@ The setup system uses shared utilities to reduce code duplication:
 - `config/terminfo/xterm-ghostty.src` - Compiled to ~/.terminfo for proper terminal support
 
 **Fish Shell** (linked to ~/.config/fish/):
-- `config/fish/config.fish` - Main config: PATH setup, SSH agent socket management, nvm activation, secrets loading, zoxide init, Homebrew setup, dotfiles update check
+- `config/fish/config.fish` - Main config: PATH setup, SSH agent socket management, shared Node PATH via `nvm-sh`, secrets loading, zoxide init, Homebrew setup, dotfiles update check
+- `config/fish/functions/nvm.fish` - Fish wrapper around `nvm-sh` that refreshes the shared default Node path
 - `config/fish/functions/opencode.fish` - Wrapper that sets `OPENCODE_EXPERIMENTAL_LSP_TY=1`
 - `config/fish/functions/dotfiles_pull.fish` - Pull dotfiles updates
 - `config/fish/functions/dotfiles_sync_check.fish` - Background check for dotfiles updates

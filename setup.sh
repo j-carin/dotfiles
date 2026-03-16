@@ -76,6 +76,49 @@ else
 fi
 
 # Install Node.js LTS + coding-agent tools
+refresh_shared_node_path() {
+    local node_path
+    local shared_node_dir="$HOME/.local/share/nvm"
+    local shared_node_link="$shared_node_dir/current"
+
+    node_path="$(nvm which default 2>/dev/null || true)"
+    if [[ -z "$node_path" || ! -x "$node_path" ]]; then
+        echo "[!] Warning: Could not resolve default Node.js binary"
+        return 1
+    fi
+
+    mkdir -p "$shared_node_dir"
+    ln -sfn "$(dirname "$(dirname "$node_path")")" "$shared_node_link"
+}
+
+cleanup_legacy_fish_nvm() {
+    if ! command -v fish >/dev/null 2>&1; then
+        return 0
+    fi
+
+    fish -c '
+        set -l plugins_file ~/.config/fish/fish_plugins
+        if test -f $plugins_file
+            set -l plugins (cat $plugins_file | string match -v "jorgebucaran/nvm.fish")
+            printf "%s\n" $plugins > $plugins_file
+        end
+
+        for file in \
+            ~/.config/fish/conf.d/nvm.fish \
+            ~/.config/fish/completions/nvm.fish \
+            ~/.config/fish/functions/_nvm_index_update.fish \
+            ~/.config/fish/functions/_nvm_list.fish \
+            ~/.config/fish/functions/_nvm_version_activate.fish \
+            ~/.config/fish/functions/_nvm_version_deactivate.fish
+            rm -f $file
+        end
+
+        for var in nvm_current_version nvm_data nvm_default_version nvm_mirror
+            set -eU $var 2>/dev/null
+        end
+    ' || echo "[!] Warning: Failed to clean up legacy fish nvm setup"
+}
+
 ensure_node_lts_bash() {
     export NVM_DIR="$HOME/.nvm"
     if [[ ! -d "$NVM_DIR" ]]; then
@@ -96,31 +139,19 @@ ensure_node_lts_bash() {
         return 1
     fi
 
-    echo "[*] Ensuring Node.js LTS is installed (bash nvm context)..."
+    echo "[*] Ensuring Node.js LTS is installed (nvm-sh)..."
     nvm install --lts
     nvm alias default 'lts/*' >/dev/null
-    nvm use --lts >/dev/null
+    nvm use default >/dev/null
+    refresh_shared_node_path || echo "[!] Warning: Failed to refresh shared Node.js path"
 
     [[ $had_u -eq 1 ]] && set -u
 }
 
-if [[ "$USE_FISH" == "true" ]]; then
-    echo "[*] Installing fisher and nvm.fish for fish..."
-    if ! fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'; then
-        echo "[!] Warning: Failed to install fisher"
-    fi
-    if ! fish -c 'fisher install jorgebucaran/nvm.fish'; then
-        echo "[!] Warning: Failed to install nvm.fish"
-    fi
-
-    echo "[*] Setting fish nvm default to LTS..."
-    if ! fish -c 'set -U nvm_default_version lts; nvm install lts; nvm use lts >/dev/null'; then
-        echo "[!] Warning: Failed to configure fish nvm LTS"
-    fi
-fi
+cleanup_legacy_fish_nvm
 
 if ensure_node_lts_bash; then
-    bash "$SCRIPT_DIR/scripts/tools/coding-agent.sh" bash
+    bash "$SCRIPT_DIR/scripts/tools/coding-agent.sh"
 else
     echo "[!] Warning: Skipping coding-agent install because Node.js LTS setup failed"
 fi

@@ -23,15 +23,11 @@ if not contains "$HOME/.local/bin" $PATH
     set -gx PATH "$HOME/.local/bin" $PATH
 end
 
-# Node.js and npm configuration
-if test -f ~/.nvmrc
-    nvm use (cat ~/.nvmrc) --silent 2>/dev/null
-end
-
-# Add npm global bin to PATH
-if command -q npm
-    if not contains (npm config get prefix)/bin $PATH
-        set -gx PATH (npm config get prefix)/bin $PATH
+# Shared Node.js installation managed by nvm-sh
+set -l node_bin "$HOME/.local/share/nvm/current/bin"
+if test -d "$node_bin"
+    if not contains "$node_bin" $PATH
+        set -gx PATH "$node_bin" $PATH
     end
 end
 
