@@ -64,7 +64,7 @@ This is a personal dotfiles repository for configuring development environments 
 10. `ln.sh` creates symbolic links for all dotfiles
 11. Ghostty terminfo compiled to ~/.terminfo
 12. Optional shell change to fish with proper configuration
-13. If fish is chosen, user is prompted for optional OpenCode installation
+13. Node.js LTS is provisioned via nvm and coding-agent tools are installed
 
 ### Shared Utilities (`common.sh`)
 The setup system uses shared utilities to reduce code duplication:
@@ -94,23 +94,15 @@ The setup system uses shared utilities to reduce code duplication:
 **Fish Shell** (linked to ~/.config/fish/):
 - `config/fish/config.fish` - Main config: PATH setup, SSH agent socket management, shared Node PATH via `nvm-sh`, secrets loading, zoxide init, Homebrew setup, dotfiles update check
 - `config/fish/functions/nvm.fish` - Fish wrapper around `nvm-sh` that refreshes the shared default Node path
-- `config/fish/functions/opencode.fish` - Wrapper that sets `OPENCODE_EXPERIMENTAL_LSP_TY=1`
 - `config/fish/functions/dotfiles_pull.fish` - Pull dotfiles updates
 - `config/fish/functions/dotfiles_sync_check.fish` - Background check for dotfiles updates
 
-**OpenCode** (linked to ~/.config/opencode/):
-- `config/opencode/opencode.json` -> `~/.config/opencode/opencode.json` - OpenCode config (leader key: ctrl+l)
-- `config/opencode/AGENTS.md` -> `~/.config/opencode/AGENTS.md` - Global guidelines (use uv for Python)
-- `skills/` -> `~/.config/opencode/skill` - OpenCode skills directory
+**Pi** (linked to ~/.pi/agent/):
+- `config/pi/agent/AGENTS.md` -> `~/.pi/agent/AGENTS.md` - Global Pi agent guidelines (use uv for Python, response style)
 
 **Secrets** (git submodule):
 - `secrets/gdrive3` -> `~/.config/gdrive3` - Google Drive credentials
 - `secrets/secrets.env` - Environment variables loaded by fish config
-
-### OpenCode Skills
-- `skills/web-search/` - Web search skill using GPT-5.2 with high reasoning
-  - `SKILL.md` - Skill description and usage instructions
-  - `search.py` - Python script using OpenAI API with web_search tool
 
 ### Git Aliases (from gitconfig)
 - `git s` - Short status
@@ -129,6 +121,6 @@ The setup system uses shared utilities to reduce code duplication:
 - Smart directory navigation: zoxide
 - Git pager: delta (side-by-side diffs)
 - Optional Rust CLI tools: git-delta, samply, code2prompt, ffsend, procs, bottom
-- AI tools: OpenCode
+- AI tools: Pi, Ralph, Codex CLI
 
 The setup is designed to be idempotent and can be run multiple times safely.
