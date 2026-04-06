@@ -4,10 +4,11 @@ set -euo pipefail
 PI_NPM_PACKAGES=(
     @mariozechner/pi-coding-agent
     @tmustier/pi-ralph-wiggum
+    @openai/codex
 )
 PI_AGENT_PACKAGES=(
     npm:@tmustier/pi-ralph-wiggum
-    npm:pi-web-access
+    npm:pi-codex-web-search
 )
 
 install_claude_code() {
@@ -28,7 +29,7 @@ install_pi_tools() {
         return
     fi
 
-    echo "[*] Installing pi tools..."
+    echo "[*] Installing pi tools and Codex CLI..."
     if ! npm install -g "${PI_NPM_PACKAGES[@]}"; then
         echo "[!] Warning: Failed to install pi tools via npm"
     fi
