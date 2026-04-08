@@ -27,6 +27,22 @@ for func in "$SCRIPT_DIR/config/fish/functions"/*.fish; do
     fi
 done
 
+# claude code skills
+mkdir -p "$HOME/.claude/skills"
+for skill in "$SCRIPT_DIR/skills"/*/; do
+    if [ -d "$skill" ]; then
+        ln -sfn "$skill" "$HOME/.claude/skills/$(basename "$skill")"
+    fi
+done
+
+# pi skills
+mkdir -p "$HOME/.pi/agent/skills"
+for skill in "$SCRIPT_DIR/skills"/*/; do
+    if [ -d "$skill" ]; then
+        ln -sfn "$skill" "$HOME/.pi/agent/skills/$(basename "$skill")"
+    fi
+done
+
 # gdrive
 if [ -d "$SCRIPT_DIR/secrets/gdrive3" ]; then
     ln -sfn "$SCRIPT_DIR/secrets/gdrive3" "$HOME/.config/gdrive3"
