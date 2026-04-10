@@ -44,6 +44,20 @@ cd <working-directory> && pi --model openai-codex/gpt-5.4 --session ~/pi-session
 
 Pi tasks can take minutes to complete. Always launch them as background tasks (use Bash `run_in_background`) so you can continue other work. Relay the result back to the user when the task completes. Blocking on a pi task wastes time for both you and the user.
 
+## Monitoring progress
+
+After launching a pi task in the background, check on it with:
+
+```bash
+uv run --no-project /home/jeremy/.claude/skills/pi-agent/pi-status.py [SESSION_NAME]
+```
+
+With no argument it picks the most recently modified session. You can also pass a session name (e.g., `auto-tuning-code-review` or a full path).
+
+This shows: entry count, elapsed time, recent tool calls, and the latest text output (i.e., the final answer if the agent is done).
+
+Use this to check on background pi tasks before reporting results to the user. Always use `uv run --no-project` (never raw `python3`).
+
 ## Working directory
 
 Always `cd` to the relevant project directory before invoking pi, so the agent has the right file context. For instance, `cd /mnt/block/mordor-web` for mordor-web tasks.
