@@ -7,19 +7,14 @@ description: Run tasks through OpenAI GPT/Codex models via the pi CLI. Use this 
 
 Delegate tasks to OpenAI models via the `pi` CLI. The pi agent gets full tool access (read, write, edit, bash) and runs non-interactively, making it suitable for code review, writing, refactoring, research, or any task the user wants handled by a different model.
 
-## Models
+## Model
 
-| ID | Notes |
-|---|---|
-| `openai-codex/gpt-5.4` | Default. Best overall. |
-| `openai-codex/gpt-5.3-codex` | Alternative, slightly faster. |
-
-Use gpt-5.4 unless the user specifies otherwise.
+Always use `openai-codex/gpt-5.5`.
 
 ## Running a task
 
 ```bash
-cd <working-directory> && pi --model openai-codex/gpt-5.4 --session ~/pi-sessions/<descriptive-name>.jsonl -p "your prompt here"
+cd <working-directory> && pi --model openai-codex/gpt-5.5 --session ~/pi-sessions/<descriptive-name>.jsonl -p "your prompt here"
 ```
 
 For long prompts, **always write the prompt file as a separate step first** (using the Write tool), then run pi in a separate Bash call. Do NOT combine heredoc file creation and pi invocation in one shell command — the escaping gets mangled and causes pi to hang.
@@ -28,7 +23,7 @@ For long prompts, **always write the prompt file as a separate step first** (usi
 # Step 1: Write prompt with the Write tool to /tmp/<descriptive-name>.txt
 
 # Step 2: Run pi in a separate Bash call
-cd <working-directory> && pi --model openai-codex/gpt-5.4 --session ~/pi-sessions/<descriptive-name>.jsonl -p @/tmp/<descriptive-name>.txt
+cd <working-directory> && pi --model openai-codex/gpt-5.5 --session ~/pi-sessions/<descriptive-name>.jsonl -p @/tmp/<descriptive-name>.txt
 ```
 
 ### Why --session matters
@@ -40,7 +35,7 @@ Every invocation should include `--session` with a descriptive filename (e.g., `
 Pass the same `--session` path to continue where a previous run left off:
 
 ```bash
-cd <working-directory> && pi --model openai-codex/gpt-5.4 --session ~/pi-sessions/<descriptive-name>.jsonl -p "follow-up prompt"
+cd <working-directory> && pi --model openai-codex/gpt-5.5 --session ~/pi-sessions/<descriptive-name>.jsonl -p "follow-up prompt"
 ```
 
 ## Important: always run in the background
