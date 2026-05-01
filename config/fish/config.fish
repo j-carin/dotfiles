@@ -23,6 +23,10 @@ if not contains "$HOME/.local/bin" $PATH
     set -gx PATH "$HOME/.local/bin" $PATH
 end
 
+if not contains "$HOME/.npm-global/bin" $PATH
+    set -gx PATH "$HOME/.npm-global/bin" $PATH
+end
+
 # Shared Node.js installation managed by nvm-sh
 set -l node_bin "$HOME/.local/share/nvm/current/bin"
 if test -d "$node_bin"
